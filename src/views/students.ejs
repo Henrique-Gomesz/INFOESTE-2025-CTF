@@ -8,6 +8,9 @@
     <!-- XSS refletido: q aparece sem sanitização -->
     <p>Resultados para: <span class="html"><%- q %></span></p>
   <% } %>
+  <% if (typeof error !== 'undefined' && error) { %>
+    <div class="error"><%= error %></div>
+  <% } %>
   <table>
     <thead><tr><th>ID</th><th>Nome</th><th>Email</th></tr></thead>
     <tbody>

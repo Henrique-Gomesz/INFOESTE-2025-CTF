@@ -50,3 +50,17 @@ export function requireStudentSelfOrAdmin(req, res, next) {
   }
   return res.status(403).send('IDOR bloqueado: você não pode alterar este estudante.');
 }
+
+// Middleware: exige autenticação (usuário logado)
+export function requireAuth(req, res, next) {
+  const uid = req.cookies.uid;
+  const user = req.user;
+  
+  // Verifica se tem uid no cookie OU user no JWT
+  if (uid || (user && user.id)) {
+    return next();
+  }
+  
+  // Redireciona para login se não autenticado
+  return res.redirect('/login?error=' + encodeURIComponent('Você precisa estar logado para acessar esta página'));
+}

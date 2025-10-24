@@ -1,46 +1,53 @@
 <section>
   <h2>Perfil do Estudante</h2>
-  <dl>
-    <dt>ID</dt><dd><%= student.id %></dd>
-    <dt>Nome</dt><dd><%= student.name %></dd>
-    <dt>Email</dt><dd><%= student.email %></dd>
-    <dt>Endereço</dt><dd><%= student.address %></dd>
-    <dt>Orientador</dt><dd><%= student.advisor || '-' %></dd>
-  </dl>
-  <% if (user && String(user.id) === String(student.id)) { %>
-    <form method="post" action="/students/<%= student.id %>/update">
-      <label>name <input name="name" value="<%- student.name %>"></label>
-      <label>email <input name="email" value="<%- student.email %>"></label>
-      <label>address <input name="address" value="<%- student.address %>"></label>
-      <label>role <input name="role" placeholder="tente adicionar campos desconhecidos"></label>
-      <button>Salvar</button>
-    </form>
-  <% } else { %>
-    <p><small>Somente o próprio estudante pode editar seus dados.</small></p>
-  <% } %>
+  
 
-  <h3>Comentários</h3>
-  <% if (uid) { %>
-    <form method="post" action="/students/<%= student.id %>/comments">
-      <textarea name="body" rows="3" cols="50" placeholder="Deixe uma mensagem (HTML permitido)"></textarea>
-      <button>Postar</button>
-    </form>
-  <% } else { %>
-    <p><small>Faça login para publicar comentários neste perfil.</small></p>
-  <% } %>
-  <ul>
-    <% comments.forEach(c => { %>
-      <li>
-        <strong><%= c.author || 'Anônimo' %>:</strong>
-        <span class="html"><%- c.body %></span>
-        <% if (isAdmin || (uid && String(uid) === String(student.id)) || (uid && String(uid) === String(c.author_id))) { %>
-          <form method="post" action="/students/<%= student.id %>/comments/<%= c.id %>/delete" style="display:inline">
-            <button class="button danger" title="Excluir comentário">Excluir</button>
-          </form>
-        <% } %>
-      </li>
-    <% }) %>
-  </ul>
+  <div class="student-actions-grid">
+    <div class="edit-section">
+      <% if (user && String(user.id) === String(student.id)) { %>
+        <h3>Editar Perfil</h3>
+        <form method="post" action="/students/<%= student.id %>/update" class="edit-form">
+          <label>Nome <input name="name" value="<%- student.name %>"></label>
+          <label>Email <input name="email" value="<%- student.email %>"></label>
+          <label>Endereço <input name="address" value="<%- student.address %>"></label>
+          <label>Role <input name="role" placeholder="tente adicionar campos desconhecidos"></label>
+          <button>Salvar</button>
+        </form>
+      <% } else { %>
+        <h3>Editar Perfil</h3>
+        <div class="no-edit-message">
+          <p><small>Somente o próprio estudante pode editar seus dados.</small></p>
+        </div>
+      <% } %>
+    </div>
+
+    <div class="comments-section">
+      <h3>Comentários</h3>
+      <% if (uid) { %>
+        <form method="post" action="/students/<%= student.id %>/comments" class="comment-form">
+          <textarea name="body" rows="3" placeholder="Deixe uma mensagem (HTML permitido)"></textarea>
+          <button>Postar</button>
+        </form>
+      <% } else { %>
+        <div class="no-comment-message">
+          <p><small>Faça login para publicar comentários neste perfil.</small></p>
+        </div>
+      <% } %>
+      <ul class="comments-list">
+        <% comments.forEach(c => { %>
+          <li>
+            <strong><%= c.author || 'Anônimo' %>:</strong>
+            <span class="html"><%- c.body %></span>
+            <% if (isAdmin || (uid && String(uid) === String(student.id)) || (uid && String(uid) === String(c.author_id))) { %>
+              <form method="post" action="/students/<%= student.id %>/comments/<%= c.id %>/delete" style="display:inline">
+                <button class="button danger" title="Excluir comentário">Excluir</button>
+              </form>
+            <% } %>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
 
   <% if (isAdmin) { %>
     <h3>Admin</h3>
