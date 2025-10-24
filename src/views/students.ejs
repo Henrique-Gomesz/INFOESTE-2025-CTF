@@ -1,0 +1,23 @@
+<section>
+  <h2>Estudantes</h2>
+  <form method="get" action="/students" class="row">
+    <input type="text" class="grow" name="q" value="<%- q || '' %>" placeholder="Pesquisar..." />
+    <button class="button">Buscar</button>
+  </form>
+  <% if (q) { %>
+    <!-- XSS refletido: q aparece sem sanitização -->
+    <p>Resultados para: <span class="html"><%- q %></span></p>
+  <% } %>
+  <table>
+    <thead><tr><th>ID</th><th>Nome</th><th>Email</th></tr></thead>
+    <tbody>
+      <% students.forEach(s => { %>
+        <tr>
+          <td><a href="/students/<%= s.id %>"><%= s.id %></a></td>
+          <td><%= s.name %></td>
+          <td><%= s.email %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</section>

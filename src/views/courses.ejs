@@ -1,0 +1,26 @@
+<section>
+  <h2>Cursos</h2>
+  <table>
+    <thead><tr><th>ID</th><th>Código</th><th>Título</th><th>Vagas</th><th>Ações</th></tr></thead>
+    <tbody>
+      <% courses.forEach(c => { %>
+        <tr>
+          <td><%= c.id %></td>
+          <td><%= c.code %></td>
+          <td><%= c.title %></td>
+          <td><%= c.seats %></td>
+          <td>
+            <form method="post" action="/courses/<%= c.id %>/enroll">
+              <button>Matricular</button>
+            </form>
+            <% if (isAdmin) { %>
+              <form method="post" action="/courses/<%= c.id %>/delete" style="margin-top:4px">
+                <button class="button danger">Excluir (admin via JWT)</button>
+              </form>
+            <% } %>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</section>

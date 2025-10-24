@@ -1,0 +1,32 @@
+<section>
+  <h2>Cadastrar novo estudante</h2>
+  <% if (error) { %>
+    <div class="error"><%= error %></div>
+  <% } %>
+  <% if (message) { %>
+    <div class="ok"><%= message %></div>
+  <% } %>
+  <form method="post" action="/register">
+    <div>
+      <label>Nome
+        <input type="text" name="name" required />
+      </label>
+    </div>
+    <div>
+      <label>Email
+        <input type="email" name="email" required />
+      </label>
+    </div>
+    <div>
+      <label>Senha
+        <input type="password" name="password" required />
+      </label>
+    </div>
+    <div>
+      <label>Endereço
+        <input type="text" name="address" placeholder="Rua, nº, bairro" />
+      </label>
+    </div>
+    <button type="submit">Cadastrar</button>
+  </form>
+</section>

@@ -1,0 +1,169 @@
+<section class="hero">
+  <div class="hero-content">
+    <h2>Bem-vindo à UniLab</h2>
+    <p>Excelência em ensino, pesquisa e extensão. Descubra cursos, eventos, notícias e a vida no campus.</p>
+    <% if (uid) { %>
+      <div class="cta">
+        <a class="button" href="/courses">Explorar Cursos</a>
+        <a class="button" href="/students">Ver Estudantes</a>
+        <a class="button secondary" href="/students/<%= uid %>">Meu Perfil</a>
+      </div>
+    <% } else { %>
+      <div class="cta">
+        <a class="button" href="/login">Entrar</a>
+        <a class="button secondary" href="/register">Criar conta</a>
+      </div>
+    <% } %>
+  </div>
+  <div class="hero-media">
+    <img src="https://images.unsplash.com/photo-1523264766116-1aec0c1f8879?q=80&w=1600&auto=format&fit=crop" alt="Campus" />
+  </div>
+</section>
+
+<section class="features">
+  <h3>Por que estudar na UniLab?</h3>
+  <div class="grid">
+    <article>
+      <img class="icon" src="https://img.icons8.com/ios-filled/100/graduate.png" alt="Formatura" />
+      <h4>Corpo docente qualificado</h4>
+      <p>Professores com experiência acadêmica e de mercado para uma formação completa.</p>
+    </article>
+    <article>
+      <img class="icon" src="https://img.icons8.com/ios-filled/100/microscope.png" alt="Pesquisa" />
+      <h4>Pesquisa e inovação</h4>
+      <p>Laboratórios e grupos de pesquisa com projetos de ponta em diversas áreas.</p>
+    </article>
+    <article>
+      <img class="icon" src="https://img.icons8.com/ios-filled/100/internship.png" alt="Carreira" />
+      <h4>Carreira e estágios</h4>
+      <p>Parcerias com empresas e programas de estágio para impulsionar sua carreira.</p>
+    </article>
+  </div>
+</section>
+
+<section class="stats">
+  <ul class="stat-list">
+    <li><strong>120+</strong><span>Laboratórios</span></li>
+    <li><strong>350+</strong><span>Professores</span></li>
+    <li><strong>8k+</strong><span>Estudantes</span></li>
+    <li><strong>95%</strong><span>Empregabilidade</span></li>
+  </ul>
+</section>
+
+<section class="departments">
+  <h3>Departamentos</h3>
+  <div class="grid">
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1517976487492-576ce9b88b17?q=80&w=1200&auto=format&fit=crop" alt="Computação"/>
+      <div class="card-body">
+        <h4>Ciência da Computação</h4>
+        <p>Programação, IA, Segurança, Redes, Sistemas Distribuídos.</p>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1200&auto=format&fit=crop" alt="Engenharia"/>
+      <div class="card-body">
+        <h4>Engenharia</h4>
+        <p>Elétrica, Mecânica, Produção, Civil e Ambiental.</p>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=1200&auto=format&fit=crop" alt="Saúde"/>
+      <div class="card-body">
+        <h4>Ciências da Saúde</h4>
+        <p>Biomedicina, Enfermagem, Nutrição e Educação Física.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="news">
+  <h3>Notícias</h3>
+  <div class="grid">
+    <article class="news-item">
+      <img src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?q=80&w=1200&auto=format&fit=crop" alt="Feira de Ciências" />
+      <h4>Feira de Ciências 2025</h4>
+      <p>Inscrições abertas para projetos de graduação e pós-graduação.</p>
+      <a class="text-link" href="#">Saiba mais</a>
+    </article>
+    <article class="news-item">
+      <img src="https://images.unsplash.com/photo-1517433456452-f9633a875f6f?q=80&w=1200&auto=format&fit=crop" alt="Hackathon" />
+      <h4>Hackathon UniLab</h4>
+      <p>48 horas de imersão em inovação e tecnologia. Monte seu time!</p>
+      <a class="text-link" href="#">Saiba mais</a>
+    </article>
+    <article class="news-item">
+      <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1200&auto=format&fit=crop" alt="Bolsas" />
+      <h4>Bolsas de Estudo</h4>
+      <p>Conheça os programas de bolsas por mérito e pesquisa.</p>
+      <a class="text-link" href="#">Saiba mais</a>
+    </article>
+  </div>
+</section>
+
+<section class="events">
+  <h3>Próximos eventos</h3>
+  <ul class="event-list">
+    <li><strong>28/10</strong> — Palestra: Segurança em Aplicações Web</li>
+    <li><strong>05/11</strong> — Workshop: Machine Learning na prática</li>
+    <li><strong>18/11</strong> — Feira de Estágios e Empregos</li>
+  </ul>
+</section>
+
+<section class="testimonials">
+  <h3>Depoimentos</h3>
+  <div class="grid">
+    <blockquote>
+      <p>“A infraestrutura e os professores são excelentes. Recomendo!”</p>
+      <cite>— Ana, Egressa de Computação</cite>
+    </blockquote>
+    <blockquote>
+      <p>“Consegui meu estágio através das parcerias da UniLab.”</p>
+      <cite>— Bruno, Eng. de Produção</cite>
+    </blockquote>
+  </div>
+</section>
+
+<section class="gallery">
+  <h3>Vida no Campus</h3>
+  <div class="grid photos">
+    <img src="https://images.unsplash.com/photo-1532135468830-4415153c9a4c?q=80&w=800&auto=format&fit=crop" alt="Biblioteca" />
+    <img src="https://images.unsplash.com/photo-1460518451285-97b6aa326961?q=80&w=800&auto=format&fit=crop" alt="Quadra" />
+    <img src="https://images.unsplash.com/photo-1456327102063-fb5054efe647?q=80&w=800&auto=format&fit=crop" alt="Laboratório" />
+    <img src="https://images.unsplash.com/photo-1510519138101-570d1dca3d66?q=80&w=800&auto=format&fit=crop" alt="Sala de aula" />
+  </div>
+</section>
+
+<style>
+/* Home-specific layout tuned to global theme */
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:2rem;align-items:center;margin:1rem 0 2rem}
+.hero-content .cta{margin-top:1rem;display:flex;gap:.5rem;flex-wrap:wrap}
+.hero-media img{width:100%;border-radius:12px;box-shadow:var(--shadow)}
+
+.features .grid, .departments .grid, .news .grid, .testimonials .grid, .gallery .photos{display:grid;gap:1rem}
+.features .grid{grid-template-columns:repeat(3,1fr)}
+.departments .grid{grid-template-columns:repeat(3,1fr)}
+.news .grid{grid-template-columns:repeat(3,1fr)}
+.testimonials .grid{grid-template-columns:repeat(2,1fr)}
+.gallery .photos{grid-template-columns:repeat(4,1fr)}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+.card img{width:100%;height:180px;object-fit:cover}
+.card-body{padding:1rem}
+
+.stat-list{display:flex;gap:2rem;justify-content:space-between;list-style:none;padding:0;margin:1rem 0}
+.stat-list li{display:flex;flex-direction:column;align-items:center;color:var(--navy-800)}
+.stat-list strong{font-size:1.75rem;color:var(--brand)}
+
+.event-list{list-style:none;padding:0;margin:0}
+.event-list li{padding:.6rem 0;border-bottom:1px dashed var(--border)}
+
+blockquote{background:var(--surface-2);border-left:4px solid var(--border);padding:1rem;border-radius:8px}
+
+.text-link{color:var(--brand);text-decoration:underline;text-underline-offset:3px}
+
+@media(max-width:960px){
+  .hero{grid-template-columns:1fr}
+  .features .grid,.departments .grid,.news .grid,.testimonials .grid,.gallery .photos{grid-template-columns:1fr}
+}
+</style>

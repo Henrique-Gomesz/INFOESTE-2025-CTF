@@ -1,0 +1,68 @@
+-- Criação do schema para UniLab
+CREATE DATABASE IF NOT EXISTS unilab;
+USE unilab;
+
+DROP TABLE IF EXISTS comments;
+DROP TABLE IF EXISTS grades;
+DROP TABLE IF EXISTS enrollments;
+DROP TABLE IF EXISTS students;
+DROP TABLE IF EXISTS courses;
+DROP TABLE IF EXISTS announcements;
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(120) NOT NULL UNIQUE,
+  password VARCHAR(100) NOT NULL,
+  role VARCHAR(20) NOT NULL DEFAULT 'student'
+);
+
+CREATE TABLE students (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NULL,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(120) NOT NULL,
+  password VARCHAR(100) NULL,
+  address VARCHAR(255) NULL,
+  advisor_id INT NULL,
+  role VARCHAR(20) DEFAULT 'student',
+  FOREIGN KEY (advisor_id) REFERENCES users(id)
+);
+
+CREATE TABLE courses (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  code VARCHAR(20) NOT NULL,
+  title VARCHAR(200) NOT NULL,
+  seats INT NOT NULL DEFAULT 2
+);
+
+CREATE TABLE enrollments (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  student_id INT NOT NULL,
+  course_id INT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE grades (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  student_id INT NOT NULL,
+  course_id INT NOT NULL,
+  grade VARCHAR(2) NOT NULL
+);
+
+CREATE TABLE announcements (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  author_id INT NOT NULL,
+  title VARCHAR(200) NOT NULL,
+  body TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE comments (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  student_id INT NOT NULL,
+  author_id INT NULL,
+  body TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

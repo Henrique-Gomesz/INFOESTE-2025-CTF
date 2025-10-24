@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UniLab - <%= typeof title !== 'undefined' ? title : 'Universidade' %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <h1><a href="/">UniLab</a></h1>
+      <nav>
+        <% if (uid) { %>
+          <a href="/students">Estudantes</a>
+          <a href="/courses">Cursos</a>
+          <a href="/students/<%= uid %>">Meu perfil</a>
+        <% } %>
+        <a href="/login">Login</a>
+        <a href="/register">Registrar</a>
+  <form action="/logout" method="post" style="display:inline"><button class="button secondary">Logout</button></form>
+      </nav>
+    </div>
+    <div class="container" style="padding-bottom:8px">
+      <% if (uid) { %>
+        <small>Conectado como ID <%= uid %> <% if (user && user.role) { %>(role: <%= user.role %>)<% } %></small>
+      <% } %>
+    </div>
+  </header>
+  <main class="container">
+    <%- body %>
+  </main>
+  <footer>
+    <small>Laboratório inseguro para fins educacionais</small>
+  </footer>
+</body>
+</html>

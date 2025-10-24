@@ -1,0 +1,52 @@
+import jwt from 'jsonwebtoken';
+
+const SECRET = process.env.SESSION_SECRET || 'inseguro';
+
+// Middleware de sessão inseguro: decodifica o JWT sem verificar assinatura
+export function insecureDecodeJwt(req, res, next) {
+  const auth = req.headers['authorization'] || '';
+  const token = (auth.startsWith('Bearer ') ? auth.substring(7) : null)
+    || req.cookies.token
+    || req.query.token;
+  try {
+    if (token) {
+      // Inseguro: usa decode (sem verify) — qualquer um pode forjar role=admin
+      const payload = jwt.decode(token) || {};
+      req.user = payload;
+    } else if (req.cookies.uid) {
+      // fallback para compatibilidade com o lab antigo
+      req.user = { id: parseInt(req.cookies.uid, 10) || null, role: 'student' };
+    } else {
+      req.user = null;
+    }
+  } catch (_) {
+    req.user = null;
+  }
+  res.locals.user = req.user;
+  res.locals.isAdmin = !!(req.user && req.user.role === 'admin');
+  res.locals.uid = (req.user && req.user.id) || req.cookies.uid || null;
+  next();
+}
+
+// Checagem simples de admin (com base no payload não verificado)
+export function requireAdmin(req, res, next) {
+  if (req.user && req.user.role === 'admin') return next();
+  return res.status(403).send('Acesso restrito a admin (JWT).');
+}
+
+// Utilitário para emitir token (assinado com segredo fraco)
+export function mintToken(claims) {
+  // Inseguro: sem expiração, segredo fraco
+  return jwt.sign(claims, SECRET, { algorithm: 'HS256' });
+}
+
+// Middleware: exige que o alvo (:id) seja o próprio estudante autenticado OU admin
+export function requireStudentSelfOrAdmin(req, res, next) {
+  const user = req.user || null;
+  const targetId = String(req.params.id || '');
+  if (user && user.role === 'admin') return next();
+  if (user && (user.subject === 'student' || typeof user.subject === 'undefined') && String(user.id) === targetId) {
+    return next();
+  }
+  return res.status(403).send('IDOR bloqueado: você não pode alterar este estudante.');
+}
