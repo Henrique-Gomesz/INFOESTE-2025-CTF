@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
       include: [{
         model: User,
         as: 'author',
-        attributes: ['id', 'name'],
+        attributes: ['id', 'name', 'email'],
         required: true
       }],
       order: [['created_at', 'DESC']],
@@ -28,7 +28,8 @@ router.get('/', async (req, res) => {
       author_id: p.author_id,
       author_name: p.author.name,
       content: p.content,
-      created_at: p.created_at
+      created_at: p.created_at,
+      email: p.author.email
     }));
     
     res.json({ 
