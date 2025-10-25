@@ -1,12 +1,12 @@
 USE bancodigital;
 
-
+-- Senha padrão para todos os usuários: senha123 (exceto Alice que é 'admin')
 INSERT INTO users (name, email, password, role, account_number, balance, bio) VALUES
-('Alice Admin', 'alice@bancodigital.com', 'admin', 'admin', '1-001', 25000.00, 'Administradora do sistema bancário. Apaixonada por tecnologia e segurança financeira.'),
-('Bruno Silva', 'bruno@bancodigital.com', 'bruno', 'user', '1-002', 12500.50, 'Desenvolvedor de software e entusiasta de criptomoedas. Sempre em busca de novos desafios!'),
-('Carla Santos', 'carla@bancodigital.com', 'carla', 'user', '1-003', 8750.75, 'Empreendedora digital. Amo viajar e conhecer novas culturas.'),
-('Diego Souza', 'diego@bancodigital.com', 'diego', 'user', '1-004', 15200.00, 'Investidor e analista financeiro. Compartilhando conhecimento sobre mercado.'),
-('Elena Costa', 'elena@bancodigital.com', 'elena', 'user', '1-005', 5600.25, 'Designer UX/UI. Criando experiências incríveis para usuários.');
+('Alice Admin', 'alice@bancodigital.com', 'admasdasdin', 'admin', '1-001', 25000.00, 'Administradora do sistema bancário. Apaixonada por tecnologia e segurança financeira.'),
+('Bruno Silva', 'bruno@bancodigital.com', 'senhaasdasda123', 'user', '1-002', 12500.50, 'Desenvolvedor de software e entusiasta de criptomoedas. Sempre em busca de novos desafios!'),
+('Carla Santos', 'carla@bancodigital.com', 'senhaad123', 'user', '1-003', 8750.75, 'Empreendedora digital. Amo viajar e conhecer novas culturas.'),
+('Diego Souza', 'diego@bancodigital.com', 'senhaasdas123', 'user', '1-004', 15200.00, 'Investidor e analista financeiro. Compartilhando conhecimento sobre mercado.'),
+('Elena Costa', 'elena@bancodigital.com', 'senha12asdasd3', 'user', '1-005', 5600.25, 'Designer UX/UI. Criando experiências incríveis para usuários.');
 
 
 INSERT INTO comments (user_id, author_id, body) VALUES

