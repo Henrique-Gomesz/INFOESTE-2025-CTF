@@ -76,18 +76,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 const commentsList = document.getElementById('commentsList');
                 if (data.comments && data.comments.length > 0) {
                     commentsList.innerHTML = data.comments.map(comment => `
-                        <div class="comment">
+                        <div class="comment-item">
                             <div class="comment-header">
-                                <strong>${escapeHtml(comment.author)}</strong>
-                                ${canDeleteComment(comment) ? `
-                                    <button class="btn-link" onclick="deleteComment(${id}, ${comment.id})">Excluir</button>
-                                ` : ''}
+                                <span class="comment-author">${escapeHtml(comment.author)}</span>
+                                <span class="comment-date">${new Date().toLocaleDateString()}</span>
                             </div>
                             <div class="comment-body">${comment.body}</div>
+                            ${canDeleteComment(comment) ? `
+                                <div class="comment-actions">
+                                    <button class="btn btn-danger btn-sm" onclick="deleteComment(${id}, ${comment.id})">Excluir</button>
+                                </div>
+                            ` : ''}
                         </div>
                     `).join('');
                 } else {
-                    commentsList.innerHTML = '<p>Nenhum comentário ainda.</p>';
+                    commentsList.innerHTML = '<p class="comments-empty">Nenhum comentário ainda.</p>';
                 }
             } else {
                 showError('Usuário não encontrado');

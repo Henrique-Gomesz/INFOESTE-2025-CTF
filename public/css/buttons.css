@@ -1,0 +1,194 @@
+/* ========================================
+   BUTTONS
+   ======================================== */
+.btn {
+    display: inline-block;
+    padding: 0.875rem 2rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+    font-family: inherit;
+    line-height: 1.5;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4);
+    background: linear-gradient(135deg, var(--primary-light), var(--primary));
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-secondary {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+    background: var(--bg-hover);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px var(--shadow);
+}
+
+.btn-secondary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, var(--error), #dc2626);
+    color: white;
+    box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.3);
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.4);
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+}
+
+.btn-danger:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--success), #059669);
+    color: white;
+    box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.4);
+    background: linear-gradient(135deg, #059669, #047857);
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, var(--warning), #d97706);
+    color: white;
+    box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.3);
+}
+
+.btn-warning:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.4);
+}
+
+.btn-info {
+    background: linear-gradient(135deg, var(--info), #2563eb);
+    color: white;
+    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+}
+
+.btn-info:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4);
+}
+
+.btn-link {
+    background: transparent;
+    color: var(--primary-light);
+    border: none;
+    padding: 0.5rem 1rem;
+    text-decoration: underline;
+    box-shadow: none;
+}
+
+.btn-link:hover {
+    color: var(--primary);
+    background: rgba(99, 102, 241, 0.1);
+    text-decoration: none;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-outline-primary {
+    background: transparent;
+    color: var(--primary-light);
+    border: 2px solid var(--primary);
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-outline-secondary {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 2px solid var(--border);
+}
+
+.btn-outline-secondary:hover {
+    background: var(--bg-secondary);
+    border-color: var(--primary);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+.btn-lg {
+    padding: 1.125rem 2.5rem;
+    font-size: 1.125rem;
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+.button-group .btn {
+    flex: 1;
+    min-width: 150px;
+}
+
+/* Botão com ícone */
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Grupo de botões inline */
+.btn-group-inline {
+    display: inline-flex;
+    gap: 0.5rem;
+}
+
