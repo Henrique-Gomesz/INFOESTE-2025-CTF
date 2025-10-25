@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Sistema Universitário</title>
+    <title>Dashboard - Banco Digital</title>
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/navbar.css">
     <link rel="stylesheet" href="/css/buttons.css">
@@ -14,42 +14,85 @@
 <body>
     <nav class="navbar">
         <div class="container">
-            <div class="nav-brand">Sistema Universitário</div>
+            <div class="nav-brand">🏦 Banco Digital</div>
             <div class="nav-links">
                 <a href="/">Início</a>
                 <a href="/dashboard.html">Dashboard</a>
-                <a href="/users.html">Usuários</a>
+                <a href="/transfer.html">Transferência</a>
+                <a href="/social.html">Feed Social</a>
+                <a href="#" id="myProfileNavLink">Meu Perfil</a>
+                <a href="/users.html" id="usersNavLink" style="display:none;">Usuários</a>
                 <a href="#" id="logoutLink">Sair</a>
             </div>
         </div>
     </nav>
 
     <div class="container">
-        <h1>Dashboard</h1>
+        <h1>Meu Dashboard Bancário</h1>
         
         <div class="user-info">
             <h2>Bem-vindo, <span id="userName"></span>!</h2>
-            <p>Role: <strong id="userRole"></strong></p>
-            <p>ID: <strong id="userId"></strong></p>
+            <p>Conta: <strong id="accountNumber"></strong></p>
         </div>
 
+        <!-- Saldo e Informações Principais -->
+        <div class="dashboard-grid">
+            <div class="card balance-card">
+                <h3>💰 Saldo Disponível</h3>
+                <p class="balance-amount" id="balanceAmount">R$ 0,00</p>
+                <div class="balance-actions">
+                    <a href="/transfer.html" class="btn btn-primary">Transferir</a>
+                    <button class="btn btn-secondary">Extrato</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📊 Gastos do Mês</h3>
+                <p class="stat-amount" id="monthlySpending">R$ 0,00</p>
+                <p class="stat-label">Total de despesas</p>
+            </div>
+
+            <div class="card">
+                <h3>🎯 Meta de Economia</h3>
+                <p class="stat-amount" id="savingsGoal">0%</p>
+                <p class="stat-label">do objetivo alcançado</p>
+            </div>
+        </div>
+
+        <!-- Transações Recentes -->
+        <div class="card transactions-card">
+            <h3>📋 Transações Recentes</h3>
+            <div id="transactionsList" class="transactions-list">
+                <p>Carregando transações...</p>
+            </div>
+        </div>
+
+        <!-- Categorias de Gastos -->
+        <div class="card categories-card">
+            <h3>📈 Gastos por Categoria</h3>
+            <div id="categoriesList" class="categories-list">
+                <p>Carregando categorias...</p>
+            </div>
+        </div>
+
+        <!-- Links Rápidos -->
         <div class="dashboard-grid">
             <div class="card">
-                <h3>📋 Meu Perfil</h3>
+                <h3>� Meu Perfil</h3>
                 <p>Visualizar e editar informações do seu perfil</p>
                 <a href="#" id="myProfileLink" class="btn btn-primary">Ver Perfil</a>
             </div>
 
             <div class="card">
-                <h3>👥 Usuários</h3>
-                <p>Buscar e visualizar perfis de outros usuários</p>
-                <a href="/users.html" class="btn btn-primary">Ver Usuários</a>
+                <h3>🌐 Feed Social</h3>
+                <p>Ver publicações da comunidade bancária</p>
+                <a href="/social.html" class="btn btn-primary">Acessar Feed</a>
             </div>
 
-            <div class="card" id="adminCard" style="display:none;">
-                <h3>⚙️ Administração</h3>
-                <p>Painel administrativo do sistema</p>
-                <a href="#" class="btn btn-primary">Acessar Painel</a>
+            <div class="card" id="adminUsersCard" style="display:none;">
+                <h3>👥 Gerenciar Usuários</h3>
+                <p>Buscar e visualizar perfis de outros clientes (Admin)</p>
+                <a href="/users.html" class="btn btn-primary">Ver Usuários</a>
             </div>
         </div>
     </div>

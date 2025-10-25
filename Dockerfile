@@ -1,4 +1,4 @@
-# Node app para UniLab
+# Node app para Banco Digital
 FROM node:20-alpine
 WORKDIR /app
 

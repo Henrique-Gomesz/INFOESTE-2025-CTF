@@ -7,6 +7,7 @@ import { createSequelize } from './utils/db.js';
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/users.js';
 import utilRoutes from './routes/utils.js';
+import postRoutes from './routes/posts.js';
 import { insecureDecodeJwt } from './utils/auth.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -39,6 +40,7 @@ app.use(insecureDecodeJwt);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/utils', utilRoutes);
+app.use('/api/posts', postRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => res.json({ ok: true }));
@@ -82,7 +84,7 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`[unilab] Servidor iniciado na porta ${PORT}`);
+  console.log(`[banco-digital] Servidor iniciado na porta ${PORT}`);
 });
 
 // Tratamento de erros não capturados

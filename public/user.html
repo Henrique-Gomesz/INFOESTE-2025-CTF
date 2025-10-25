@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil do Usuário - Sistema Universitário</title>
+    <title>Perfil do Usuário - Banco Digital</title>
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/navbar.css">
     <link rel="stylesheet" href="/css/buttons.css">
@@ -13,11 +13,13 @@
 <body>
     <nav class="navbar">
         <div class="container">
-            <div class="nav-brand">Sistema Universitário</div>
+            <div class="nav-brand">🏦 Banco Digital</div>
             <div class="nav-links">
                 <a href="/">Início</a>
                 <a href="/dashboard.html">Dashboard</a>
-                <a href="/users.html">Usuários</a>
+                <a href="/social.html">Feed Social</a>
+                <a href="#" id="myProfileNavLink">Meu Perfil</a>
+                <a href="/users.html" id="usersNavLink" style="display:none;">Usuários</a>
                 <a href="#" id="logoutLink">Sair</a>
             </div>
         </div>
@@ -30,12 +32,35 @@
         <div id="userProfile" style="display:none;">
             <div class="profile-header">
                 <h1 id="profileName"></h1>
-                <p>Email: <strong id="profileEmail"></strong></p>
-                <p>ID: <strong id="profileId"></strong></p>
+                <p class="profile-account">Conta: <strong id="profileAccount"></strong></p>
+                <p class="profile-bio" id="profileBio"></p>
+                
+                <!-- Botão de editar - só aparece para o dono do perfil -->
+                <div id="editProfileSection" style="display:none; margin-top: 1.5rem;">
+                    <button class="btn btn-secondary" id="editProfileBtn">Editar Perfil</button>
+                </div>
             </div>
 
-            <div class="profile-actions" id="profileActions">
-                <!-- Edit/Delete buttons for authorized users -->
+            <!-- Modal de edição de perfil -->
+            <div id="editModal" class="modal" style="display:none;">
+                <div class="modal-content">
+                    <span class="close" id="closeModal">&times;</span>
+                    <h2>Editar Perfil</h2>
+                    <form id="editProfileForm">
+                        <div class="form-group">
+                            <label for="editName">Nome</label>
+                            <input type="text" id="editName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editBio">Biografia</label>
+                            <textarea id="editBio" rows="4" placeholder="Conte um pouco sobre você..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                            <button type="button" class="btn btn-secondary" id="cancelEdit">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
 
             <div class="comments-section">

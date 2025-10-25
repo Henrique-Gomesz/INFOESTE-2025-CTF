@@ -72,6 +72,14 @@
     color: var(--text-muted);
 }
 
+.search-hint {
+    text-align: center;
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
 .search-result {
     text-align: center;
     color: var(--text-secondary);

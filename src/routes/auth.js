@@ -8,16 +8,26 @@ router.post('/register', async (req, res) => {
   const { User } = req.app.locals.models;
   const { name, email, password } = req.body;
   try {
+    // Gera número de conta curto automaticamente
+    const lastUser = await User.findOne({
+      order: [['id', 'DESC']],
+      attributes: ['id']
+    });
+    const nextId = lastUser ? lastUser.id + 1 : 1;
+    const accountNumber = `${Math.floor(nextId / 1000) || 1}-${String(nextId).padStart(3, '0')}`;
+    
     // Cria um usuário com senha (inseguro: senha em texto)
     const user = await User.create({
       name,
       email,
-      password
+      password,
+      account_number: accountNumber,
+      balance: 0
     });
     res.status(201).json({ 
       success: true,
       message: 'Usuário criado com sucesso. Você já pode fazer login.',
-      user: { id: user.id, name: user.name, email: user.email }
+      user: { id: user.id, name: user.name, email: user.email, account_number: user.account_number }
     });
   } catch (e) {
     res.status(400).json({ 
@@ -44,7 +54,7 @@ router.post('/login', async (req, res) => {
 
     if (user) {
       console.log("Usuário autenticado: ", user);
-      const token = mintToken({ id: user.id, name: user.name, role: user.role || 'student', subject: 'user' });
+      const token = mintToken({ id: user.id, name: user.name, role: user.role || 'user', subject: 'user' });
       
       res.cookie('uid', String(user.id), { httpOnly: false });
       res.cookie('token', token, { httpOnly: false });

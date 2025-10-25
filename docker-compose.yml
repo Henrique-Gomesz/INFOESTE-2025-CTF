@@ -4,9 +4,9 @@ services:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: rootpwd
-      MYSQL_DATABASE: unilab
-      MYSQL_USER: unilab
-      MYSQL_PASSWORD: unilabpwd
+      MYSQL_DATABASE: bancodigital
+      MYSQL_USER: bancodigital
+      MYSQL_PASSWORD: bancodigitalpwd
     ports:
       - "3306:3306"
     volumes:
@@ -21,9 +21,9 @@ services:
       PORT: 3000
       DB_HOST: db
       DB_PORT: 3306
-      DB_USER: unilab
-      DB_PASSWORD: unilabpwd
-      DB_NAME: unilab
+      DB_USER: bancodigital
+      DB_PASSWORD: bancodigitalpwd
+      DB_NAME: bancodigital
     depends_on:
       - db
     restart: always

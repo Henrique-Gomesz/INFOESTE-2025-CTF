@@ -16,6 +16,22 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const currentUser = getCurrentUser();
     
+    // Configura link "Meu Perfil" na navbar
+    if (currentUser) {
+        const myProfileNavLink = document.getElementById('myProfileNavLink');
+        if (myProfileNavLink) {
+            myProfileNavLink.href = `/user.html?id=${currentUser.id}`;
+        }
+    }
+    
+    // Mostra link de usuários se for admin
+    if (currentUser && currentUser.role === 'admin') {
+        const usersNavLink = document.getElementById('usersNavLink');
+        if (usersNavLink) {
+            usersNavLink.style.display = 'inline';
+        }
+    }
+    
     loadUserProfile(userId);
     
     // Handler do formulário de comentário
@@ -51,25 +67,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('loadingMessage').style.display = 'none';
                 document.getElementById('userProfile').style.display = 'block';
                 
-                // Informações do usuário
+                // Informações do usuário - NOME, CONTA E BIO
                 document.getElementById('profileName').textContent = data.user.name;
-                document.getElementById('profileEmail').textContent = data.user.email;
-                document.getElementById('profileId').textContent = data.user.id;
+                document.getElementById('profileAccount').textContent = data.user.account_number || 'N/A';
+                document.getElementById('profileBio').textContent = data.user.bio || 'Este usuário ainda não adicionou uma biografia.';
                 
-                // Ações do perfil (editar/excluir)
-                const profileActions = document.getElementById('profileActions');
-                profileActions.innerHTML = '';
-                
-                if (currentUser && (currentUser.id == id || currentUser.role === 'admin')) {
-                    profileActions.innerHTML = `
-                        <button class="btn btn-secondary" onclick="editProfile(${id})">Editar Perfil</button>
-                    `;
-                    
-                    if (currentUser.role === 'admin' && currentUser.id != id) {
-                        profileActions.innerHTML += `
-                            <button class="btn btn-danger" onclick="deleteUser(${id})">Excluir Usuário</button>
-                        `;
-                    }
+                // Mostra botão de editar apenas para o dono do perfil
+                if (currentUser && currentUser.id == id) {
+                    document.getElementById('editProfileSection').style.display = 'block';
+                    setupEditProfile(id, data.user);
                 }
                 
                 // Comentários (VULNERABILIDADE: XSS armazenado)
@@ -121,45 +127,71 @@ document.addEventListener('DOMContentLoaded', () => {
         return div.innerHTML;
     }
     
-    // Funções globais para os botões
-    window.editProfile = function(id) {
-        const newName = prompt('Novo nome:');
-        const newEmail = prompt('Novo email:');
-        
-        if (!newName && !newEmail) return;
-        
-        const updateData = {};
-        if (newName) updateData.name = newName;
-        if (newEmail) updateData.email = newEmail;
-        
-        apiRequest(`/users/${id}`, {
-            method: 'PUT',
-            body: JSON.stringify(updateData)
-        })
-        .then(() => {
-            alert('Perfil atualizado com sucesso!');
-            loadUserProfile(id);
-        })
-        .catch(error => {
-            alert('Erro ao atualizar perfil: ' + error.message);
-        });
-    };
+    function formatMoney(value) {
+        return parseFloat(value).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
     
-    window.deleteUser = function(id) {
-        if (!confirm('Tem certeza que deseja excluir este usuário?')) return;
+    // Configura a edição de perfil
+    function setupEditProfile(userId, userData) {
+        const editBtn = document.getElementById('editProfileBtn');
+        const modal = document.getElementById('editModal');
+        const closeModal = document.getElementById('closeModal');
+        const cancelEdit = document.getElementById('cancelEdit');
+        const editForm = document.getElementById('editProfileForm');
         
-        apiRequest(`/users/${id}`, {
-            method: 'DELETE'
-        })
-        .then(() => {
-            alert('Usuário excluído com sucesso!');
-            window.location.href = '/users.html';
-        })
-        .catch(error => {
-            alert('Erro ao excluir usuário: ' + error.message);
+        // Abre o modal
+        editBtn.addEventListener('click', () => {
+            document.getElementById('editName').value = userData.name;
+            document.getElementById('editBio').value = userData.bio || '';
+            modal.style.display = 'block';
         });
-    };
+        
+        // Fecha o modal
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        
+        cancelEdit.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        
+        // Fecha ao clicar fora do modal
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // Submete as alterações
+        editForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const newName = document.getElementById('editName').value;
+            const newBio = document.getElementById('editBio').value;
+            
+            try {
+                const response = await apiRequest(`/users/${userId}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({
+                        name: newName,
+                        bio: newBio
+                    })
+                });
+                
+                if (response.success) {
+                    alert('Perfil atualizado com sucesso!');
+                    modal.style.display = 'none';
+                    loadUserProfile(userId);
+                } else {
+                    alert('Erro ao atualizar perfil: ' + response.error);
+                }
+            } catch (error) {
+                alert('Erro ao atualizar perfil: ' + error.message);
+            }
+        });
+    }
     
+    // Função global para excluir comentário
     window.deleteComment = function(userId, commentId) {
         if (!confirm('Tem certeza que deseja excluir este comentário?')) return;
         

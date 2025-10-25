@@ -1,7 +1,8 @@
--- Criação do schema para UniLab
-CREATE DATABASE IF NOT EXISTS unilab;
-USE unilab;
+-- Criação do schema para Banco Digital
+CREATE DATABASE IF NOT EXISTS bancodigital;
+USE bancodigital;
 
+DROP TABLE IF EXISTS posts;
 DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS users;
 
@@ -10,15 +11,37 @@ CREATE TABLE users (
   name VARCHAR(100) NOT NULL,
   email VARCHAR(120) NOT NULL,
   password VARCHAR(100) NULL,
-  role VARCHAR(20) DEFAULT 'student'
+  role VARCHAR(20) DEFAULT 'user',
+  account_number VARCHAR(20) NULL,
+  balance DECIMAL(15, 2) DEFAULT 0.00,
+  bio TEXT NULL
 );
 
 CREATE TABLE comments (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  student_id INT NOT NULL,
+  user_id INT NOT NULL,
   author_id INT NULL,
   body TEXT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
   FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
+CREATE TABLE posts (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  author_id INT NOT NULL,
+  content TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE transactions (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  from_user_id INT NOT NULL,
+  to_user_id INT NOT NULL,
+  amount DECIMAL(15, 2) NOT NULL,
+  status VARCHAR(20) DEFAULT 'completed',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (from_user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (to_user_id) REFERENCES users(id) ON DELETE CASCADE
 );

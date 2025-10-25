@@ -1,21 +1,17 @@
 import { DataTypes } from 'sequelize';
 
 export default function(sequelize) {
-  const Comment = sequelize.define('Comment', {
+  const Post = sequelize.define('Post', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
-    user_id: {
+    author_id: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    author_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    body: {
+    content: {
       type: DataTypes.TEXT,
       allowNull: false
     },
@@ -24,9 +20,9 @@ export default function(sequelize) {
       defaultValue: DataTypes.NOW
     }
   }, {
-    tableName: 'comments',
+    tableName: 'posts',
     timestamps: false
   });
 
-  return Comment;
+  return Post;
 }

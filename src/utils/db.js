@@ -3,7 +3,7 @@ import { initModels } from '../models/index.js';
 
 export async function createSequelize() {
   const sequelize = new Sequelize(
-    process.env.DB_NAME || 'unilab',
+    process.env.DB_NAME || 'bancodigital',
     process.env.DB_USER || 'root',
     process.env.DB_PASSWORD || '',
     {

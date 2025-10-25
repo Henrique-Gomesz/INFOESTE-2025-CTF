@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adicionar Saldo - Admin | Banco Digital</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/buttons.css">
+  <link rel="stylesheet" href="css/cards.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a href="/">💰 Banco Digital</a>
+    </div>
+    <div class="navbar-links">
+      <a href="/dashboard.html">Dashboard</a>
+      <a href="/social.html">Social</a>
+      <a href="/transfer.html">Transferir</a>
+      <a href="/users.html">Usuários</a>
+      <a href="/admin-balance.html" class="active">Adicionar Saldo</a>
+      <a href="#" id="meu-perfil-btn">Meu Perfil</a>
+      <a href="#" id="logout-btn">Sair</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="card">
+      <h2>🔐 Adicionar Saldo (Admin)</h2>
+      <p class="info-text">Como administrador, você pode adicionar saldo a qualquer conta do sistema.</p>
+      
+      <form id="add-balance-form" class="form">
+        <div class="form-group">
+          <label for="userId">ID do Usuário</label>
+          <input 
+            type="number" 
+            id="userId" 
+            name="userId" 
+            placeholder="Ex: 1" 
+            required
+            min="1"
+          >
+          <small>Digite o ID do usuário que receberá o saldo</small>
+        </div>
+
+        <div class="form-group">
+          <label for="amount">Valor a Adicionar (R$)</label>
+          <input 
+            type="number" 
+            id="amount" 
+            name="amount" 
+            placeholder="Ex: 1000.00" 
+            required
+            min="0.01"
+            step="0.01"
+          >
+          <small>Valor deve ser positivo</small>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Adicionar Saldo</button>
+      </form>
+
+      <div id="result" class="result-box" style="display: none;"></div>
+
+      <div class="info-section" style="margin-top: 30px;">
+        <h3>📋 Usuários Disponíveis</h3>
+        <div id="users-list" class="users-grid">
+          <p>Carregando usuários...</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script>
+    // Verifica se é admin
+    async function checkAdmin() {
+      const user = await getCurrentUser();
+      if (!user || user.role !== 'admin') {
+        alert('Acesso negado! Apenas administradores podem acessar esta página.');
+        window.location.href = '/dashboard.html';
+      }
+    }
+
+    // Carrega lista de usuários
+    async function loadUsers() {
+      try {
+        const response = await fetch('/api/users?q=');
+        const data = await response.json();
+        
+        const usersList = document.getElementById('users-list');
+        
+        if (data.success && data.users && data.users.length > 0) {
+          usersList.innerHTML = data.users.map(user => `
+            <div class="user-card" style="border: 1px solid #ddd; padding: 10px; margin: 5px; border-radius: 5px;">
+              <strong>ID: ${user.id}</strong> - ${user.name || 'N/A'}
+              <br>
+              <small>${user.email || 'N/A'}</small>
+            </div>
+          `).join('');
+        } else {
+          usersList.innerHTML = '<p>Nenhum usuário encontrado</p>';
+        }
+      } catch (error) {
+        console.error('Erro ao carregar usuários:', error);
+        document.getElementById('users-list').innerHTML = '<p class="error">Erro ao carregar usuários</p>';
+      }
+    }
+
+    // Formulário de adicionar saldo
+    document.getElementById('add-balance-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const userId = document.getElementById('userId').value;
+      const amount = document.getElementById('amount').value;
+      const resultDiv = document.getElementById('result');
+      
+      try {
+        const response = await fetch('/api/users/admin/add-balance', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ userId: parseInt(userId), amount: parseFloat(amount) })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          resultDiv.className = 'result-box success';
+          resultDiv.innerHTML = `
+            <h3>✅ Saldo Adicionado!</h3>
+            <p><strong>Usuário:</strong> ${data.data.userName} (ID: ${data.data.userId})</p>
+            <p><strong>Saldo Anterior:</strong> R$ ${data.data.oldBalance}</p>
+            <p><strong>Valor Adicionado:</strong> R$ ${data.data.addedAmount}</p>
+            <p><strong>Novo Saldo:</strong> R$ ${data.data.newBalance}</p>
+          `;
+          document.getElementById('add-balance-form').reset();
+          loadUsers(); // Recarrega lista
+        } else {
+          resultDiv.className = 'result-box error';
+          resultDiv.innerHTML = `<p>❌ ${data.error}</p>`;
+        }
+        
+        resultDiv.style.display = 'block';
+        
+      } catch (error) {
+        resultDiv.className = 'result-box error';
+        resultDiv.innerHTML = `<p>❌ Erro ao adicionar saldo: ${error.message}</p>`;
+        resultDiv.style.display = 'block';
+      }
+    });
+
+    // Inicialização
+    checkAdmin().then(() => {
+      loadUsers();
+    });
+  </script>
+
+  <style>
+    .info-text {
+      color: #666;
+      margin-bottom: 20px;
+      padding: 10px;
+      background-color: #f0f8ff;
+      border-left: 4px solid #007bff;
+      border-radius: 4px;
+    }
+
+    .result-box {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .result-box.success {
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+    }
+
+    .result-box.error {
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+    }
+
+    .info-section {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .info-section h3 {
+      margin-top: 0;
+      color: #333;
+    }
+
+    .users-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .user-card {
+      background: white;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .user-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    small {
+      color: #666;
+      font-size: 0.9em;
+    }
+  </style>
+</body>
+</html>

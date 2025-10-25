@@ -21,7 +21,19 @@ export default function(sequelize) {
     },
     role: {
       type: DataTypes.STRING(20),
-      defaultValue: 'student'
+      defaultValue: 'user'
+    },
+    account_number: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    balance: {
+      type: DataTypes.DECIMAL(15, 2),
+      defaultValue: 0.00
+    },
+    bio: {
+      type: DataTypes.TEXT,
+      allowNull: true
     }
   }, {
     tableName: 'users',

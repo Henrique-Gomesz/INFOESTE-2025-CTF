@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             
             if (data.success) {
-                messageDiv.textContent = data.message + ' Verifique o console do navegador (F12) para ver o código.';
+                messageDiv.textContent = data.message;
                 messageDiv.style.display = 'block';
                 
                 // Mostra formulário de reset

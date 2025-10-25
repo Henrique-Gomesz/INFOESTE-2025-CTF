@@ -6,6 +6,42 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
     
+    // Verifica se o usuário é admin
+    const currentUser = getCurrentUser();
+    
+    // Configura link "Meu Perfil" na navbar
+    if (currentUser) {
+        const myProfileNavLink = document.getElementById('myProfileNavLink');
+        if (myProfileNavLink) {
+            myProfileNavLink.href = `/user.html?id=${currentUser.id}`;
+        }
+    }
+    
+    if (!currentUser || currentUser.role !== 'admin') {
+        document.body.innerHTML = `
+            <nav class="navbar">
+                <div class="container">
+                    <div class="nav-brand">🏦 Banco Digital</div>
+                    <div class="nav-links">
+                        <a href="/">Início</a>
+                        <a href="/dashboard.html">Dashboard</a>
+                        <a href="/social.html">Feed Social</a>
+                        <a href="/user.html?id=${currentUser.id}">Meu Perfil</a>
+                        <a href="#" id="logoutLink">Sair</a>
+                    </div>
+                </div>
+            </nav>
+            <div class="container">
+                <div style="text-align: center; padding: 50px;">
+                    <h1>🔒 Acesso Negado</h1>
+                    <p>Apenas administradores podem visualizar a lista de usuários.</p>
+                    <a href="/dashboard.html" class="btn btn-primary">Voltar ao Dashboard</a>
+                </div>
+            </div>
+        `;
+        return;
+    }
+    
     const searchForm = document.getElementById('searchForm');
     const searchInput = document.getElementById('searchInput');
     const usersList = document.getElementById('usersList');
@@ -38,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function loadUsers(q = '') {
         try {
             usersList.innerHTML = '<p>Carregando...</p>';
-            
+
             const endpoint = q ? `/users?q=${encodeURIComponent(q)}` : '/users';
             const data = await apiRequest(endpoint);
             
@@ -53,10 +89,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.users && data.users.length > 0) {
                 usersList.innerHTML = data.users.map(user => `
                     <div class="user-card">
-                        <h3>${escapeHtml(user.name)}</h3>
-                        <p>Email: ${escapeHtml(user.email)}</p>
-                        <p>ID: ${user.id}</p>
-                        <a href="/user.html?id=${user.id}" class="btn btn-primary">Ver Perfil</a>
+                        <h3>${escapeHtml(user.name || user.id || 'N/A')}</h3>
+                        <p><strong>Email/Info:</strong> ${escapeHtml(user.email || 'N/A')}</p>
+                        <p><strong>ID:</strong> ${escapeHtml(String(user.id || 'N/A'))}</p>
+                        ${user.id && !isNaN(user.id) ? `<a href="/user.html?id=${user.id}" class="btn btn-primary">Ver Perfil</a>` : ''}
                     </div>
                 `).join('');
             } else {
