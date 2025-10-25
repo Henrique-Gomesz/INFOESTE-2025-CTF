@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Usuário - Sistema Universitário</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">Sistema Universitário</div>
+            <div class="nav-links">
+                <a href="/">Início</a>
+                <a href="/dashboard.html">Dashboard</a>
+                <a href="/users.html">Usuários</a>
+                <a href="#" id="logoutLink">Sair</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div id="loadingMessage">Carregando...</div>
+        <div id="errorMessage" class="error" style="display:none;"></div>
+        
+        <div id="userProfile" style="display:none;">
+            <div class="profile-header">
+                <h1 id="profileName"></h1>
+                <p>Email: <strong id="profileEmail"></strong></p>
+                <p>ID: <strong id="profileId"></strong></p>
+            </div>
+
+            <div class="profile-actions" id="profileActions">
+                <!-- Edit/Delete buttons for authorized users -->
+            </div>
+
+            <div class="comments-section">
+                <h2>Comentários</h2>
+                
+                <form id="commentForm" class="comment-form">
+                    <textarea id="commentBody" placeholder="Adicionar um comentário..." rows="3" required></textarea>
+                    <button type="submit" class="btn btn-primary">Enviar Comentário</button>
+                </form>
+
+                <div id="commentsList" class="comments-list">
+                    <!-- Comments will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/user-profile.js"></script>
+</body>
+</html>

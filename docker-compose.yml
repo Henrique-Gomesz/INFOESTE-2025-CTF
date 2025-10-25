@@ -26,6 +26,7 @@ services:
       DB_NAME: unilab
     depends_on:
       - db
+    restart: always
 
   adminer:
     image: adminer:4

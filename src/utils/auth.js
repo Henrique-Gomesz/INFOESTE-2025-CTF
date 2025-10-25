@@ -13,9 +13,6 @@ export function insecureDecodeJwt(req, res, next) {
       // Inseguro: usa decode (sem verify) — qualquer um pode forjar role=admin
       const payload = jwt.decode(token) || {};
       req.user = payload;
-    } else if (req.cookies.uid) {
-      // fallback para compatibilidade com o lab antigo
-      req.user = { id: parseInt(req.cookies.uid, 10) || null, role: 'student' };
     } else {
       req.user = null;
     }
@@ -40,15 +37,15 @@ export function mintToken(claims) {
   return jwt.sign(claims, SECRET, { algorithm: 'HS256' });
 }
 
-// Middleware: exige que o alvo (:id) seja o próprio estudante autenticado OU admin
-export function requireStudentSelfOrAdmin(req, res, next) {
+// Middleware: exige que o alvo (:id) seja o próprio usuário autenticado OU admin
+export function requireUserSelfOrAdmin(req, res, next) {
   const user = req.user || null;
   const targetId = String(req.params.id || '');
   if (user && user.role === 'admin') return next();
-  if (user && (user.subject === 'student' || typeof user.subject === 'undefined') && String(user.id) === targetId) {
+  if (user && (user.subject === 'user' || typeof user.subject === 'undefined') && String(user.id) === targetId) {
     return next();
   }
-  return res.status(403).send('IDOR bloqueado: você não pode alterar este estudante.');
+  return res.status(403).send('IDOR bloqueado: você não pode alterar este usuário.');
 }
 
 // Middleware: exige autenticação (usuário logado)

@@ -1,6 +1,5 @@
-import { Router } from 'express';
 import axios from 'axios';
-import { mintToken } from '../utils/auth.js';
+import { Router } from 'express';
 
 const router = Router();
 
@@ -17,10 +16,3 @@ router.get('/fetch', async (req, res) => {
 });
 
 export default router;
-// Rota para cunhar JWTs inseguros com claims arbitrárias
-router.get('/jwt/mint', (req, res) => {
-  const { uid, role = 'student', name = 'User' } = req.query;
-  const id = uid ? parseInt(uid, 10) : undefined;
-  const token = mintToken({ id, role, name });
-  res.type('text').send(token);
-});

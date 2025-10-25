@@ -1,25 +1,38 @@
-import mysql from 'mysql2/promise';
+import { Sequelize } from 'sequelize';
+import { initModels } from '../models/index.js';
 
-export async function createPool() {
-  const config = {
-    host: process.env.DB_HOST || '127.0.0.1',
-    port: +(process.env.DB_PORT || 3306),
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || 'unilab',
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0,
-    // Inseguro: sem SSL, sem timeouts adequados
-  };
+export async function createSequelize() {
+  const sequelize = new Sequelize(
+    process.env.DB_NAME || 'unilab',
+    process.env.DB_USER || 'root',
+    process.env.DB_PASSWORD || '',
+    {
+      host: process.env.DB_HOST || '127.0.0.1',
+      port: +(process.env.DB_PORT || 3306),
+      dialect: 'mysql',
+      logging: false, // Desabilita logs SQL, habilite para debug
+      pool: {
+        max: 10,
+        min: 0,
+        acquire: 30000,
+        idle: 10000,
+      },
+    }
+  );
+
   try {
-    const pool = await mysql.createPool(config);
-    return pool;
+    await sequelize.authenticate();
+    console.log('✅ Conexão com o banco de dados estabelecida com sucesso.');
+    
+    // Inicializa os modelos
+    const models = initModels(sequelize);
+    
+    // Adiciona os modelos ao objeto sequelize para fácil acesso
+    sequelize.models = models;
+    
+    return sequelize;
   } catch (err) {
-    console.error('Erro conectando ao MySQL:', err.message);
-    // Não interrompe o servidor: endpoints podem falhar depois
-    return {
-      query: async () => { throw err; }
-    };
+    console.error('❌ Erro conectando ao MySQL:', err.message);
+    throw err;
   }
 }

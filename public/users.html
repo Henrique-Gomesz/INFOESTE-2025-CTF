@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuários - Sistema Universitário</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">Sistema Universitário</div>
+            <div class="nav-links">
+                <a href="/">Início</a>
+                <a href="/dashboard.html">Dashboard</a>
+                <a href="/users.html">Usuários</a>
+                <a href="#" id="logoutLink">Sair</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Usuários</h1>
+        
+        <div class="search-box">
+            <form id="searchForm">
+                <input type="text" id="searchInput" placeholder="Buscar usuários por nome..." value="">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </form>
+        </div>
+
+        <div id="searchQuery" class="search-result" style="display:none;">
+            Resultados para: <strong id="queryText"></strong>
+        </div>
+
+        <div id="usersList" class="users-grid">
+            <!-- Users will be loaded here -->
+        </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/users.js"></script>
+</body>
+</html>
