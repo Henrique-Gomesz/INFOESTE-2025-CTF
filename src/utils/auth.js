@@ -21,7 +21,7 @@ export function insecureDecodeJwt(req, res, next) {
   }
   res.locals.user = req.user;
   res.locals.isAdmin = !!(req.user && req.user.role === 'admin');
-  res.locals.uid = (req.user && req.user.id) || req.cookies.uid || null;
+  res.locals.uid = (req.user && req.user.id) || null;
   next();
 }
 
@@ -50,11 +50,10 @@ export function requireUserSelfOrAdmin(req, res, next) {
 
 // Middleware: exige autenticação (usuário logado)
 export function requireAuth(req, res, next) {
-  const uid = req.cookies.uid;
   const user = req.user;
   
-  // Verifica se tem uid no cookie OU user no JWT
-  if (uid || (user && user.id)) {
+  // Verifica se tem user no JWT
+  if (user && user.id) {
     return next();
   }
   

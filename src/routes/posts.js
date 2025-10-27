@@ -49,7 +49,7 @@ router.get('/', async (req, res) => {
 // Cria um novo post (XSS armazenado)
 router.post('/', async (req, res) => {
   const { Post } = req.app.locals.models;
-  const uid = req.cookies.uid || req.user?.id;
+  const uid = req.user?.id;
   const { content } = req.body;
   
   if (!uid) {
@@ -95,7 +95,7 @@ router.post('/', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   const { Post } = req.app.locals.models;
   const postId = req.params.id;
-  const uid = req.cookies.uid || req.user?.id;
+  const uid = req.user?.id;
   const isAdmin = !!(req.user && req.user.role === 'admin');
   
   if (!uid) {

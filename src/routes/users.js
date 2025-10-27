@@ -10,7 +10,7 @@ router.use(requireAuth);
 // Dashboard bancário - dados do usuário logado
 router.get('/me/dashboard', async (req, res) => {
   const { User } = req.app.locals.models;
-  const uid = req.cookies.uid || req.user?.id;
+  const uid = req.user?.id;
   
   if (!uid) {
     return res.status(401).json({ 
@@ -185,7 +185,7 @@ router.get('/:id', async (req, res) => {
 router.post('/:id/comments', async (req, res) => {
   const { Comment, User } = req.app.locals.models;
   const id = req.params.id;
-  const uid = req.cookies.uid || req.user?.id;
+  const uid = req.user?.id;
   const { body } = req.body;
   
   // Valida se o usuário está autenticado
@@ -303,7 +303,7 @@ router.delete('/:id/comments/:commentId', async (req, res) => {
   const userId = String(req.params.id);
   const commentId = req.params.commentId;
   const isAdmin = !!(req.user && req.user.role === 'admin');
-  const uid = (req.user && req.user.id) || req.cookies.uid || null;
+  const uid = req.user?.id || null;
   try {
     const comment = await Comment.findOne({
       where: { id: commentId },
@@ -405,7 +405,7 @@ router.post('/admin/add-balance', requireAdmin, async (req, res) => {
 // Não usa transação atômica nem locks, permitindo múltiplas transferências simultâneas
 router.post('/transfer', async (req, res) => {
   const { User, Transaction } = req.app.locals.models;
-  const uid = req.cookies.uid || req.user?.id;
+  const uid = req.user?.id;
   const { to_account_number, amount } = req.body;
   
   if (!uid) {
@@ -532,7 +532,7 @@ router.post('/transfer', async (req, res) => {
 // Buscar histórico de transações do usuário
 router.get('/me/transactions', async (req, res) => {
   const { User, Transaction } = req.app.locals.models;
-  const uid = req.cookies.uid || req.user?.id;
+  const uid = req.user?.id;
   
   if (!uid) {
     return res.status(401).json({ 

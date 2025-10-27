@@ -56,7 +56,6 @@ router.post('/login', async (req, res) => {
       console.log("Usuário autenticado: ", user);
       const token = mintToken({ id: user.id, name: user.name, role: user.role || 'user', subject: 'user' });
       
-      res.cookie('uid', String(user.id), { httpOnly: false });
       res.cookie('token', token, { httpOnly: false });
       
       return res.json({ 
@@ -80,7 +79,6 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/logout', (req, res) => {
-  res.clearCookie('uid');
   res.clearCookie('token');
   res.json({ 
     success: true,
