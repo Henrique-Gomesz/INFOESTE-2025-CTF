@@ -10,12 +10,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const errorDiv = document.getElementById('error');
     const messageDiv = document.getElementById('message');
     
-    // Mostra mensagem se houver
+    // Mostra mensagem ou erro se houver
     const urlParams = new URLSearchParams(window.location.search);
     const message = urlParams.get('message');
+    const error = urlParams.get('error');
+    
     if (message) {
         messageDiv.textContent = message;
         messageDiv.style.display = 'block';
+    }
+    
+    if (error) {
+        errorDiv.textContent = error;
+        errorDiv.style.display = 'block';
     }
     
     form.addEventListener('submit', async (e) => {

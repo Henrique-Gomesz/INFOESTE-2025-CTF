@@ -1,6 +1,6 @@
 // Verifica autenticação
-const uid = getCookie('uid');
-if (!uid) {
+const token = getCookie('token');
+if (!token) {
   window.location.href = '/login.html';
 }
 
@@ -12,10 +12,28 @@ function getCookie(name) {
   return null;
 }
 
+// Função para decodificar JWT e obter informações do usuário
+function getCurrentUser() {
+  const token = getCookie('token');
+  if (!token) return null;
+  
+  try {
+    const parts = token.split('.');
+    if (parts.length !== 3) return null;
+    
+    const payload = JSON.parse(atob(parts[1]));
+    return payload;
+  } catch (e) {
+    console.error('Erro ao decodificar token:', e);
+    return null;
+  }
+}
+
 // Configura link do perfil na navbar
+const currentUser = getCurrentUser();
 const myProfileNavLink = document.getElementById('myProfileNavLink');
-if (myProfileNavLink) {
-  myProfileNavLink.href = `/user.html?id=${uid}`;
+if (myProfileNavLink && currentUser) {
+  myProfileNavLink.href = `/user.html?id=${currentUser.id}`;
 }
 
 // Verifica se é admin e mostra o link de usuários
@@ -23,9 +41,9 @@ fetch('/api/users/me/dashboard')
   .then(res => res.json())
   .then(data => {
     if (data.success && data.data.user) {
-      // Se tiver role de admin no cookie ou na resposta, mostra o link
-      const userRole = getCookie('role');
-      if (userRole === 'admin') {
+      // Se tiver role de admin no JWT, mostra o link
+      const currentUser = getCurrentUser();
+      if (currentUser && currentUser.role === 'admin') {
         const usersNavLink = document.getElementById('usersNavLink');
         if (usersNavLink) {
           usersNavLink.style.display = 'inline';
@@ -38,7 +56,7 @@ fetch('/api/users/me/dashboard')
 // Logout
 document.getElementById('logoutLink').addEventListener('click', (e) => {
   e.preventDefault();
-  document.cookie = 'uid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
   window.location.href = '/login.html';
 });
 

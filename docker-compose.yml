@@ -24,6 +24,7 @@ services:
       DB_USER: bancodigital
       DB_PASSWORD: bancodigitalpwd
       DB_NAME: bancodigital
+      SESSION_SECRET: monkey
     depends_on:
       - db
     restart: always

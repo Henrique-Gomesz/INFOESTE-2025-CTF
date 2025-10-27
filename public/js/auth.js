@@ -64,14 +64,12 @@ function logout() {
     })
     .then(() => {
         deleteCookie('token');
-        deleteCookie('uid');
         window.location.href = '/login.html';
     })
     .catch(err => {
         console.error('Erro no logout:', err);
         // Logout local mesmo se falhar no servidor
         deleteCookie('token');
-        deleteCookie('uid');
         window.location.href = '/login.html';
     });
 }

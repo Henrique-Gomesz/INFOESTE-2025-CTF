@@ -479,7 +479,7 @@ router.post('/transfer', async (req, res) => {
 
     // VULNERABILIDADE: Delay proposital para aumentar a janela de race condition
     // Simula processamento/validação
-    await new Promise(resolve => setTimeout(resolve, 100));
+    // await new Promise(resolve => setTimeout(resolve, 100));
 
     // VULNERABILIDADE: Atualiza saldos SEM TRANSAÇÃO ATÔMICA
     // Se múltiplas requisições chegarem ao mesmo tempo, todas vão ler o mesmo saldo
