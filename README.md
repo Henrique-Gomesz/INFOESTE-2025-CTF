@@ -31,3 +31,12 @@ Aplicação bancária web vulnerável desenvolvida para o Capture The Flag INFOE
    ```
    http://localhost:8978
    ```
+
+## Vulnerabilidades Disponíveis:
+- **SQL Injection**
+- **Cross-Site Scripting (XSS)**
+- **IDOR**
+- **BOLA**
+- **Mass Assignment**
+- **OTP Bypass**
+- **Race Condition**
