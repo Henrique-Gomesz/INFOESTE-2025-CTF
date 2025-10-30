@@ -2,6 +2,8 @@
 
 Aplicação bancária web vulnerável desenvolvida para o Capture The Flag INFOESTE 2025. O objetivo é encontrar e explorar as vulnerabilidades intencionais implementadas no sistema.
 
+[Slides da apresentação](https://github.com/Henrique-Gomesz/INFOESTE-2025-CTF/blob/main/Slides.pdf)
+
 ## Desenvolvido por:
 
 - [Henrique Gomes](https://github.com/Henrique-Gomesz)
