@@ -16,9 +16,9 @@ services:
   app:
     build: .
     ports:
-      - "5432:5432"
+      - "8978:8978"
     environment:
-      PORT: 5432
+      PORT: 8978
       DB_HOST: db
       DB_PORT: 3306
       DB_USER: bancodigital
